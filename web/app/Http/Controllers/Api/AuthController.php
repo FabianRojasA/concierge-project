@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Dotenv\Validator;
-use http\Client\Curl\User;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -18,17 +18,16 @@ class AuthController extends Controller
     public function  register(Request $request){
 
         $data = $request->all();
-
         $validator = Validator::make($data,[
             'name' => 'required|max:50',
-            'email' => 'email|required|unique:user',
+            'email' => 'email|required|unique:users',
             'password' => 'required|confirmed'
         ]);
 
         if($validator->fails()){
             return response([
                 'error'=>$validator->errors(),
-                'message' => 'Validator Error'
+                'message' => 'Validation Error'
             ]);
         }
 
@@ -74,7 +73,7 @@ class AuthController extends Controller
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         return response([
             'user' => auth()->user(),
-            'acces_token' => $accessToken
+            'access_token' => $accessToken
         ]);
 
     }
