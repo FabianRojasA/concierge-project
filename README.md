@@ -1,4 +1,4 @@
-# Consierge Project
+# Concierge Project
 
 - **Asignatura**: Proyecto de desarrollo de Software basado en Plataformas
 - **Semestre**: 1er Semestre, 2020
