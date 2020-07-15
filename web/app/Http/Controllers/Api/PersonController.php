@@ -64,7 +64,6 @@ class PersonController extends Controller
             'name'=>'required|max:255',
             'phone'=>'max:50',
             'email'=>'required|max:255'
-
         ]);
 
         if($validator.fails()){
@@ -106,7 +105,18 @@ class PersonController extends Controller
      */
     public function update(Request $request, Persona $persona)
     {
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'rut'=>'required|max:50',
+            'name'=>'required|max:255',
+            'phone'=>'max:50',
+            'email'=>'required|max:255'
+        ]);
+
         $persona->update($request->all());
+
+
         return response([
             'message'=>'Updated Succesfully',
             'persona'=>new PersonaResource($persona)
