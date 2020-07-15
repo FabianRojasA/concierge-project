@@ -6,6 +6,9 @@
 - **Universidad** : Universidad Catolica del Norte, Antofagasta
 - **Profesor** : Diego Urrutia <durrutia@ucn.cl>
 
+- **Modelo del dominio  (https://drive.google.com/file/d/1_RNLNMpbnebxR3Wx6qStY0BqyVVtzE2q/view?usp=sharing)
+
+
 ## Tecnologías
 - Java:
     
