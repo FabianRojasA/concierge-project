@@ -27,6 +27,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Person
+ * @package App
+ */
 class Person extends Model
 {
     //

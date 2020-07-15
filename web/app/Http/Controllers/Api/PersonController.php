@@ -1,13 +1,41 @@
 <?php
+/**
+ * MIT License
+ *
+ * Copyright (c) 2020 Carlos Cortes, Fabian Rojas y Wilber Navarro.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Person;
+use App\Http\Resources\PersonaResource;
+use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PersonController extends Controller
+/**
+ * The PersonController class
+ * Class PersonControlller
+ * @package App\Http\Controllers
+ */
+class PersonControlller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +44,12 @@ class PersonController extends Controller
      */
     public function index()
     {
-        // TODO: Change the personal data that will be retrieved with PersonResource
-        $persons = Person::all();
+        $personas = Persona::all();  //SELECT * FROM personas
+
         return response([
-           'message' => 'Retrieved Successfully',
-           'personas' => $persons
-        ],200);
+            'message'=>'Retrieved Succesfully',
+            'personas'=>PersonaResource::collection($personas) //se manda un listado de personas segun las reglas en Resource
+        ]);
     }
 
     /**
@@ -34,79 +62,74 @@ class PersonController extends Controller
     {
         $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'rut' => 'required|max:12',
-            'name' => 'required|max:255',
-            'lastname' => 'required:max:255',
-            "phone" => 'required:max:12',
-            'email' => 'required:rfc,dns|required|max:255'
+        $validator = Validator::make($data,[
+            'rut'=>'required|max:50',
+            'name'=>'required|max:255',
+            'phone'=>'max:50',
+            'email'=>'required|max:255'
+
         ]);
 
-        // Precondition Failed
-        if ($validator->fails()){
+        if($validator.fails()){
             return response([
-                'message' => 'Validator Error',
-                'error' => $validator->errors()
-            ], 412);
+                'message'=>'Validation Error',
+                'error'=>$validator.errors()
+            ],412);
         }
 
-        $person = Person::created($data);
+        /** @noinspection PhpUndefinedMethodInspection */
+        $persona = Persona::create($data);
 
-        // Created
-        // TODO: Change the personal data that will be retrieved with PersonResource
         return response([
-            'message' => 'Created Successfully',
-            'person' => $person
-        ], 201);
+            'message'=>'Created Succesfully',
+            'persona'=>new PersonaResource($persona)
+        ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Person  $person
+     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function show(Person $person)
+    public function show(Persona $persona)
     {
-        // TODO: Change the personal data that will be retrieved with PersonResource
         return response([
-            'message' => 'Retrieved Successfully',
-            'person' => $person
-        ], 200);
+            'message'=>'Created Succesfully',
+            'persona'=>new PersonaResource($persona)
+        ],200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Person  $person
+     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Person $person)
+    public function update(Request $request, Persona $persona)
     {
-        $person->update($request->all());
-
-        // TODO: Change the personal data that will be retrieved with PersonResource
+        $persona->update($request->all());
         return response([
-            'message' => 'Updated Successfully',
-            'person' => $person
-        ], 200);
+            'message'=>'Updated Succesfully',
+            'persona'=>new PersonaResource($persona)
+        ],202);
+
+        //Necesario hacer validacion
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Person  $person
+     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Person $person)
+    public function destroy(Persona $persona)
     {
+        $persona->delete();
 
-        $person->delete();
-
-        // TODO: Change the personal data that will be retrieved with PersonResource
         return response([
-            'message' => 'Deleted'
-        ], 200);
+            'message'=>'Deleted Succesfully'
+        ],201);
     }
 }
