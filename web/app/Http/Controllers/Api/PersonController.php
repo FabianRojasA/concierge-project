@@ -28,7 +28,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PersonResource;
 use App\Person;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -40,14 +42,14 @@ class PersonController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $people = Person::all();
 
         return response([
-            'message'=>'Retrieved Succesfully',
+            'message'=>'Retrieved Successfully',
             'people'=>PersonResource::collection($people)
         ]);
     }
@@ -55,8 +57,9 @@ class PersonController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -80,7 +83,7 @@ class PersonController extends Controller
         $person = Person::create($data);
 
         return response([
-            'message'=>'Created Succesfully',
+            'message'=>'Created Successfully',
             'persona'=>new PersonResource($person)
         ],201);
     }
@@ -88,13 +91,14 @@ class PersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Person  $person
-     * @return \Illuminate\Http\Response
+     * @param Person $person
+     *
+     * @return Response
      */
     public function show(Person $person)
     {
         return response([
-            'message'=>'Created Succesfully',
+            'message'=>'Created Successfully',
             'person'=>new PersonResource($person)
         ],200);
     }
@@ -102,9 +106,10 @@ class PersonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Person  $person
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Person  $person
+     *
+     * @return Response
      */
     public function update(Request $request, Person $person)
     {
@@ -121,7 +126,7 @@ class PersonController extends Controller
 
 
         return response([
-            'message'=>'Updated Succesfully',
+            'message'=>'Updated Successfully',
             'person'=>new PersonResource($person)
         ],202);
 
@@ -130,16 +135,17 @@ class PersonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Person $person
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @param Person $person
+     *
+     * @return Response
+     * @throws Exception
      */
     public function destroy(Person $person)
     {
         $person->delete();
 
         return response([
-            'message'=>'Deleted Succesfully'
+            'message'=>'Deleted Successfully'
         ],201);
     }
 }

@@ -28,6 +28,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -40,7 +41,7 @@ class AuthController extends Controller
     /**
      * Register a user into the system.
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function  register(Request $request){
 
@@ -83,7 +84,7 @@ class AuthController extends Controller
     /**
      * Do the login, returning the access token.
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function login(Request $request){
 
@@ -122,7 +123,7 @@ class AuthController extends Controller
     /**
      * Logout user (revoke token)
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function logout(Request $request)
     {
