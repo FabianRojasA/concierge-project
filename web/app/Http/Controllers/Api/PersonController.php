@@ -26,7 +26,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PersonResource;
+use App\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * The Class PersonController
@@ -41,11 +44,11 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $personas = Persona::all();  //SELECT * FROM personas
+        $people = Person::all();
 
         return response([
             'message'=>'Retrieved Succesfully',
-            'personas'=>PersonaResource::collection($personas) //se manda un listado de personas segun las reglas en Resource
+            'people'=>PersonResource::collection($people)
         ]);
     }
 
@@ -66,33 +69,33 @@ class PersonController extends Controller
             'email'=>'required|max:255'
         ]);
 
-        if($validator.fails()){
+        if($validator->fails()){
             return response([
                 'message'=>'Validation Error',
-                'error'=>$validator.errors()
+                'error'=>$validator->errors()
             ],412);
         }
 
         /** @noinspection PhpUndefinedMethodInspection */
-        $persona = Persona::create($data);
+        $person = Person::create($data);
 
         return response([
             'message'=>'Created Succesfully',
-            'persona'=>new PersonaResource($persona)
+            'persona'=>new PersonResource($person)
         ],201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Persona  $persona
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function show(Persona $persona)
+    public function show(Person $person)
     {
         return response([
             'message'=>'Created Succesfully',
-            'persona'=>new PersonaResource($persona)
+            'person'=>new PersonResource($person)
         ],200);
     }
 
@@ -100,10 +103,10 @@ class PersonController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Persona  $persona
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persona $persona)
+    public function update(Request $request, Person $person)
     {
         $data = $request->all();
 
@@ -114,26 +117,26 @@ class PersonController extends Controller
             'email'=>'required|max:255'
         ]);
 
-        $persona->update($request->all());
+        $person->update($request->all());
 
 
         return response([
             'message'=>'Updated Succesfully',
-            'persona'=>new PersonaResource($persona)
+            'person'=>new PersonResource($person)
         ],202);
 
-        //Necesario hacer validacion
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Persona  $persona
+     * @param \App\Person $person
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Persona $persona)
+    public function destroy(Person $person)
     {
-        $persona->delete();
+        $person->delete();
 
         return response([
             'message'=>'Deleted Succesfully'

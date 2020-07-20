@@ -25,3 +25,9 @@ Route::get('/logout','Api\AuthController@logout')->middleware('auth:api');
 
 Route::apiResource('/people','Api\PersonController')->middleware('auth:api');
 
+//Routes for Person Class
+Route::get('/personas','Api\PersonController@index')->middleware('auth:api');
+Route::post('/guardarPersona','Api\PersonController@store')->middleware('auth:api');
+Route::get('/mostrarPersona','Api\PersonController@show')->middleware('auth:api');
+Route::post('/actualizarPersona','Api\PersonController@update')->middleware('auth:api');
+Route::post('/eliminarPersona','Api\PersonController@destroy')->middleware('auth:api');
