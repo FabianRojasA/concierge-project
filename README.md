@@ -8,7 +8,7 @@
 
 ##Modelo del dominio
 
-![modeloDominio] (https://github.com/FabianRojasA/concierge-project/blob/master/docs/ProjectConcierge_DomainModel.png)
+![image](https://github.com/FabianRojasA/concierge-project/blob/master/docs/ProjectConcierge_DomainModel.png)
 
 ## Tecnologías
 - Java:
