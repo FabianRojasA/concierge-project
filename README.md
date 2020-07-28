@@ -6,7 +6,7 @@
 - **Universidad** : Universidad Catolica del Norte, Antofagasta
 - **Profesor** : Diego Urrutia <durrutia@ucn.cl>
 
-##Modelo del dominio
+#Modelo del dominio
 
 ![image](https://github.com/FabianRojasA/concierge-project/blob/master/docs/ProjectConcierge_DomainModel.png)
 
