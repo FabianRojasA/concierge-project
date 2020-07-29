@@ -26,50 +26,50 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PersonResource;
-use App\Person;
-use Exception;
+use App\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\VisitResource;
 
 /**
- * The Class PersonController
+ * Class VisitController
  * @package App\Http\Controllers\Api
  */
-class PersonController extends Controller
+class VisitController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $people = Person::all();
+        $visits = Visit::all();
 
         return response([
-            'message'=>'Retrieved Successfully',
-            'people'=>PersonResource::collection($people)
+            'message' => 'Restrieved Successfully',
+            'visits' => VisitResource::collection($visits)
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     *
+     * @param  $request
      * @return Response
      */
     public function store(Request $request)
     {
         $data = $request->all();
 
-        $validator = Validator::make($data,[
-            'rut'=>'required|max:50|unique:people',
-            'name'=>'required|max:255',
-            'phone'=>'max:50',
-            'email'=>'required|max:255'
+        $validator = Validator::make($data, [
+            'rut' => 'required|max:50',
+            'name' => 'required|max:255',
+            'adress' => 'required|max:255',
+            'date' => 'required|max:255',
+            'relationship' => 'required|in:CLOSE RELATIVE,VISITOR,ENTERPRISE',
+            'type'=>'max:255'
         ]);
 
         if($validator->fails()){
@@ -80,72 +80,84 @@ class PersonController extends Controller
         }
 
         /** @noinspection PhpUndefinedMethodInspection */
-        $person = Person::create($data);
+        $visit = Visit::create($data);
 
         return response([
             'message'=>'Created Successfully',
-            'persona'=>new PersonResource($person)
+            'visit'=>new VisitResource($visit)
         ],201);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Person $person
-     *
-     * @return Response
+     * @param  \App\Visit  $visit
+     * @return \Illuminate\Http\Response
      */
-    public function show(Person $person)
+    public function show(Visit $visit)
     {
-        return response([
-            'message'=>'Created Successfully',
-            'person'=>new PersonResource($person)
-        ],200);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Person  $person
-     *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Visit  $visit
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Person $person)
+    public function update(Request $request, Visit $visit)
     {
-        $data = $request->all();
-
-        $validator = Validator::make($data,[
-            'rut'=>'required|max:50',
-            'name'=>'required|max:255',
-            'phone'=>'max:50',
-            'email'=>'required|max:255'
-        ]);
-
-        $person->update($request->all());
-
-
-        return response([
-            'message'=>'Updated Successfully',
-            'person'=>new PersonResource($person)
-        ],202);
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Person $person
-     *
-     * @return Response
-     * @throws Exception
+     * @param  \App\Visit  $visit
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Person $person)
+    public function destroy(Visit $visit)
     {
-        $person->delete();
+        //
+    }
+
+    /**
+     * Display all visits sorted by date in ascending order
+     * @return \Illuminate\Http\Response
+     *
+     */
+    public function visits()
+    {
+        $visitsDate = Visit::orderBy('date','ASC')->get();
 
         return response([
-            'message'=>'Deleted Successfully'
-        ],201);
+            'message' => 'Restrieved Successfully',
+            'visits' => VisitResource::collection($visitsDate)
+        ]);
+    }
+
+    /**
+     *
+     * Display all the visits to a house or apartment
+     * @param Request $request
+     * @return mixed
+     */
+    public function toAdress($adress)
+    {
+        $visitsAdress = Visit::where('adress',$adress)->get();
+
+        if(count($visitsAdress) == 0){
+            return response([
+                'message' => 'No visits to the adress',
+            ]);
+        }
+
+        return response([
+            'message' => 'Restrieved Successfully',
+            'visits' => VisitResource::collection($visitsAdress)
+        ]);
+
     }
 }

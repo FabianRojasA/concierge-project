@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePeopleTable extends Migration
+class CreateVisitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePeopleTable extends Migration
      */
     public function up()
     {
-        Schema::create('people', function (Blueprint $table) {
+        Schema::create('visits', function (Blueprint $table) {
             $table->id();
-            // TODO: Add the unique property
-            $table->string("rut")->unique();
-            $table->string("name");
-            $table->string("phone");
-            // TODO: Add the unique property
-            $table->string("email");
             $table->timestamps();
+            $table->string("rut");
+            $table->string("name");
+            $table->string("adress");
+            $table->date("date");
+            $table->enum("relationship",["CLOSE RELATIVE","VISITOR","ENTERPRISE"]);
+            $table->string("type")->nullable();
         });
     }
 
@@ -32,6 +32,6 @@ class CreatePeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('visits');
     }
 }
