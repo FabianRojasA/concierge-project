@@ -66,7 +66,7 @@ class PersonController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data,[
-            'rut'=>'required|max:50',
+            'rut'=>'required|max:50|unique:people',
             'name'=>'required|max:255',
             'phone'=>'max:50',
             'email'=>'required|max:255'
