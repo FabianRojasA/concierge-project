@@ -31,3 +31,13 @@ Route::post('/guardarPersona','Api\PersonController@store')->middleware('auth:ap
 Route::get('/mostrarPersona','Api\PersonController@show')->middleware('auth:api');
 Route::post('/actualizarPersona','Api\PersonController@update')->middleware('auth:api');
 Route::post('/eliminarPersona','Api\PersonController@destroy')->middleware('auth:api');
+
+//Routes for Visit Class
+Route::get('/visitas','Api\VisitController@index')->middleware('auth:api');
+Route::post('/guardarVisita','Api\VisitController@store')->middleware('auth:api');
+Route::get('/registro','Api\VisitController@visits')->middleware('auth:api');
+Route::get('/direccion','Api\VisitController@toAdress')->middleware('auth:api');
+
+
+Route::get('registro','Api\VisitController@visits');
+Route::get('registro/{adress}','Api\VisitController@toAdress');
