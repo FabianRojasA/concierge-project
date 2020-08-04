@@ -24,6 +24,7 @@ Route::post('/login','Api\AuthController@login');
 Route::get('/logout','Api\AuthController@logout')->middleware('auth:api');
 
 Route::apiResource('/people','Api\PersonController');
+Route::apiResource('/visit', 'Api\VisitController');
 
 //Routes for Person Class
 Route::get('/personas','Api\PersonController@index')->middleware('auth:api');
