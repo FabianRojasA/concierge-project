@@ -11,8 +11,10 @@
 ![image](https://github.com/FabianRojasA/concierge-project/blob/master/docs/ProjectConcierge_DomainModel.png)
 
 ## Tecnologías
-- Java:
-    
+- Kotlin:
+    - Retrofit v2.8.0
+    - Okhttp3 v4.3.1
+    - Coroutines v1.3.7
 
 
 - PHP:
