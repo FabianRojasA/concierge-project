@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_get_personas).setOnClickListener {
             GlobalScope.async(Dispatchers.Main) {Dispatchers.Main
                 try {
-                    val response = ApiAdapter.apiClient.getPersonas( token = "Bearer " + sessionManager.fetchAuthToken())
+                    val response = ApiAdapter.apiClient.getPersonas(token = "Bearer " + sessionManager.fetchAuthToken())
 
                     if (response.isSuccessful && response.body() != null) {
                         val data = response.body()!!
@@ -133,17 +133,17 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else {
                         Toast.makeText(
-                            this@MainActivity,
-                            "Error Occurred in GETPERSONAS: ${response.message()}",
-                            Toast.LENGTH_LONG
+                                this@MainActivity,
+                                "Error Occurred in GETPERSONAS: ${response.message()}",
+                                Toast.LENGTH_LONG
                         ).show()
                     }
                 } catch (e: Exception) {
                     // Show API error. This is the error raised by the client.
                     Toast.makeText(
-                        this@MainActivity,
-                        "Error Occurred in GetPersons: ${e.message}",
-                        Toast.LENGTH_LONG
+                            this@MainActivity,
+                            "Error Occurred in GetPersons: ${e.message}",
+                            Toast.LENGTH_LONG
                     ).show()
                 }
                 updateUi()
